@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    rails_logging_formatters (0.1.0)
+    rails_custom_logging (0.1.0)
       actionpack (>= 5.2, < 7)
       activesupport (>= 5.2, < 7)
 
@@ -56,9 +56,8 @@ PLATFORMS
   x86_64-darwin-19
 
 DEPENDENCIES
-  activesupport (~> 5.2.0)
   minitest (~> 5.0)
-  rails_logging_formatters!
+  rails_custom_logging!
   rake (~> 13.0)
 
 BUNDLED WITH

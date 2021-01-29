@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
-require_relative 'rails_logging_formatters/version'
-require_relative 'rails_logging_formatters/configuration'
-require_relative 'rails_logging_formatters/subscribers/action_controller'
-require_relative 'rails_logging_formatters/transformers/default'
-require_relative 'rails_logging_formatters/formatters/key_value'
-require_relative 'rails_logging_formatters/railtie' if defined?(Rails)
+require_relative 'rails_custom_logging/version'
+require_relative 'rails_custom_logging/configuration'
+require_relative 'rails_custom_logging/subscribers/action_controller'
+require_relative 'rails_custom_logging/transformers/default'
+require_relative 'rails_custom_logging/formatters/key_value'
+require_relative 'rails_custom_logging/railtie' if defined?(Rails)
 
-module RailsLoggingFormatters
+module RailsCustomLogging
   class Error < StandardError; end
 
   def self.setup(app)

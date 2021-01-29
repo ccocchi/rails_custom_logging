@@ -1,10 +1,10 @@
-module RailsLoggingFormatters
+module RailsCustomLogging
   module Subscribers
     class ActionController < ::ActiveSupport::LogSubscriber
       def process_action(event)
         info do
-          payload = RailsLoggingFormatters.transformer.call(event)
-          RailsLoggingFormatters.formatter.call(payload)
+          payload = RailsCustomLogging.transformer.call(event)
+          RailsCustomLogging.formatter.call(payload)
         end
       end
     end

@@ -1,4 +1,4 @@
-module RailsLoggingFormatters
+module RailsCustomLogging
   module Rack
     # Replace `Rails::Rack::Logger` middleware with this one to avoid pesky Rack logs
     # lines like `Started GET /`.

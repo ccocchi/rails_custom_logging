@@ -1,7 +1,7 @@
 # Backport `detach_from` method added in Rails 6
 # https://github.com/rails/rails/blob/v6.1.1/activesupport/lib/active_support/subscriber.rb
 #
-module RailsLoggingFormatters
+module RailsCustomLogging
   module ActiveSupport
     module Subscriber
       def detach_from(namespace, notifier = ::ActiveSupport::Notifications)
@@ -46,4 +46,4 @@ module RailsLoggingFormatters
   end
 end
 
-::ActiveSupport::Subscriber.extend(RailsLoggingFormatters::ActiveSupport::Subscriber)
+::ActiveSupport::Subscriber.extend(RailsCustomLogging::ActiveSupport::Subscriber)

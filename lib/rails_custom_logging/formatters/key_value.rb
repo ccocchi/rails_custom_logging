@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module RailsLoggingFormatters
+module RailsCustomLogging
   module Formatters
     module KeyValue
 

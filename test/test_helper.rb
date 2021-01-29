@@ -6,6 +6,6 @@ require 'action_controller'
 
 require 'active_support/notifications/instrumenter'
 
-require "rails_logging_formatters"
+require "rails_custom_logging"
 
 require "minitest/autorun"

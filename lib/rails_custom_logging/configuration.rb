@@ -1,4 +1,4 @@
-module RailsLoggingFormatters
+module RailsCustomLogging
   class Configuration
     attr_accessor :formatter, :enabled, :transformer
 
