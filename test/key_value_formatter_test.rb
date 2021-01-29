@@ -1,13 +1,18 @@
-require "test_helper"
+require 'test_helper'
 
 class KeyValueFormatterTest < Minitest::Test
   def test_empty_payload
     assert_equal '', RailsLoggingFormatters::Formatters::KeyValue.call({})
   end
 
-  def test_missing_values_are_not_printed
+  def test_payload_is_returned_as_key_value_string
     str = RailsLoggingFormatters::Formatters::KeyValue.call({ method: 'GET', path: '/' })
     assert_equal 'method=GET path=/', str
+  end
+
+  def test_nil_values_are_not_printed
+    str = RailsLoggingFormatters::Formatters::KeyValue.call({ method: 'GET', user_id: nil })
+    assert_equal 'method=GET', str
   end
 
   def test_order_is_respected
