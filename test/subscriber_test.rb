@@ -41,8 +41,10 @@ class SubscriberTest < ActionController::TestCase
     refute_nil event.duration
   end
 
-  def test_request_is_present
-    event = get_event
-    assert_instance_of ActionController::TestRequest, event.payload[:request]
+  if ::ActionPack::VERSION::MAJOR > 6 || ::ActionPack::VERSION::MINOR > 0
+    def test_request_is_present
+      event = get_event
+      assert_instance_of ActionController::TestRequest, event.payload[:request]
+    end
   end
 end

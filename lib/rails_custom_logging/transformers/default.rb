@@ -6,23 +6,39 @@ module RailsCustomLogging
     # basic values any application could use.
     #
     module Default
-      def self.call(event)
-        payload = event.payload.dup
+      class << self
+        def call(event)
+          payload = event.payload.dup
 
-        if payload.key?(:params)
-          payload[:params] = payload[:params].except('action', 'controller', 'id')
-          payload.delete(:params) if payload[:params].empty?
+          if payload.key?(:params)
+            payload[:params] = payload[:params].except('action', 'controller', 'id')
+            payload.delete(:params) if payload[:params].empty?
+          end
+
+          payload[:duration] = event.duration
+          payload[:allocations] = event.allocations
+
+          payload.delete(:headers)
+          payload.delete(:response)
+          payload[:path] = extract_path(payload)
+          payload.delete(:request)
+
+          payload
         end
 
-        payload[:duration] = event.duration
-        payload[:allocations] = event.allocations
+        private
 
-        payload.delete(:headers)
-        payload.delete(:response)
-        payload[:path] = payload[:request].path
-        payload.delete(:request)
-
-        payload
+        if ::ActionPack::VERSION::MAJOR == 6 && ::ActionPack::VERSION::MINOR == 0
+          def extract_path(payload)
+            path  = payload[:path]
+            index = path.index("?")
+            index ? path.slice(0, index) : path
+          end
+        else
+          def extract_path(payload)
+            payload[:request].path
+          end
+        end
       end
     end
   end
