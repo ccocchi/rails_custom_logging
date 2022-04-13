@@ -1,6 +1,6 @@
 module RailsCustomLogging
   module Rack
-    # Replace `Rails::Rack::Logger` middleware with this one to avoid pesky Rack logs
+    # Replaces `Rails::Rack::Logger` middleware with this one to avoid pesky Rack logs
     # lines like `Started GET /`.
     #
     class Logger

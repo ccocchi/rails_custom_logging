@@ -2,12 +2,21 @@ require 'test_helper'
 
 class DefaultTransformerTest < Minitest::Test
   def setup
+    request = Minitest::Mock.new
+    request.expect(:path, "/users")
+
     @payload = {
       method: 'GET',
-      path: '/users',
+      path: '/users?foo=bar',
       controller: 'Users',
-      action: 'show'
+      action: 'show',
+      request: request,
+      response: Minitest::Mock.new
     }
+  end
+
+  private def run_transformation
+    RailsCustomLogging::Transformers::Default.call(build_event)
   end
 
   private def build_event
@@ -38,31 +47,42 @@ class DefaultTransformerTest < Minitest::Test
 
   def test_empty_params_are_removed
     @payload[:params] = { 'action' => 'index', 'controller' => 'users' }
-    result = RailsCustomLogging::Transformers::Default.call(build_event)
+    result = run_transformation
 
     refute result.key?(:params)
   end
 
   def test_event_duration_is_added
-    result = RailsCustomLogging::Transformers::Default.call(build_event)
+    result = run_transformation
     assert_instance_of Float, result[:duration]
+  end
+
+  def test_path_is_retrieved_from_request
+    result = run_transformation
+    assert_equal "/users", result[:path]
   end
 
   def test_headers_are_removed
     @payload[:headers] = { 'Accept' => 'application/json' }
-    result = RailsCustomLogging::Transformers::Default.call(build_event)
+    result = run_transformation
     refute result.key?(:headers)
   end
 
   def test_generic_action_controller_values_are_present
-    result = RailsCustomLogging::Transformers::Default.call(build_event)
+    result = run_transformation
     assert_equal 'GET', result[:method]
-    assert_equal '/users', result[:path]
+    assert_equal 'show', result[:action]
   end
 
   def test_user_specified_values_are_present
     @payload[:custom_value] = 'my-user-value'
-    result = RailsCustomLogging::Transformers::Default.call(build_event)
+    result = run_transformation
     assert_equal 'my-user-value', result[:custom_value]
+  end
+
+  def test_request_and_response_are_removed
+    result = run_transformation
+    refute result.key?(:request)
+    refute result.key?(:response)
   end
 end

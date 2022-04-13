@@ -7,9 +7,11 @@ module RailsCustomLogging
       # MRI trick to force the order of the payload keys with a very light cost of a single
       # merge. MRI hash's `to_a` method will return values in the order in which they are
       # defined by implemention. `merge` follows the same pattern.
-      #
       # If you're using another implemention of Ruby (jRuby/truffleruby) you might end up
       # with unordered keys.
+      #
+      # Additional keys in the payload will be added at the end, ordering being left at
+      # your discretion.
       #
       ORDERED_HASH = {
         method: nil, path: nil, params: nil, format: nil, status: nil, controller: nil,

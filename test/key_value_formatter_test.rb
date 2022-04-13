@@ -33,4 +33,14 @@ class KeyValueFormatterTest < Minitest::Test
     str = RailsCustomLogging::Formatters::KeyValue.call({ status: 200, duration: 128.397462 })
     assert_equal 'status=200 duration=128.40', str
   end
+
+  def test_custom_values_are_added_at_the_end
+    str = RailsCustomLogging::Formatters::KeyValue.call({
+      method: "GET",
+      custom: "value",
+      allocations: 120
+    })
+
+    assert_equal "method=GET allocations=120 custom=value", str
+  end
 end
